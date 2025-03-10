@@ -22,76 +22,136 @@
         pre {
             margin: 0;
         }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        .install-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            /* Green background */
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .install-button:hover {
+            background-color: #45a049;
+            /* Darker green on hover */
+        }
+
+        .install-button:focus {
+            outline: 3px solid #91ff95;
+            /* Accessible focus indicator */
+            outline-offset: 2px;
+        }
+
+        #draggable-div {
+            cursor: move;
+            /* Change the cursor to indicate the element is draggable */
+            user-select: none;
+            /* Prevent text selection while dragging */
+            position: absolute;
+            /* Allow the element to be positioned anywhere */
+        }
     </style>
 </head>
 
 <body>
-    <p>Follow one of these links to view the different stages of the project:</p>
-    <ul>
-        <li><a id="redirect-non-bootstrap" href="./non-bootstrap/">Non-Bootstrap</a></li>
-        <li><a id="redirect-non-bootstrap-adjustable" href="./non-bootstrap-adjustable/">Non-Bootstrap Adjustable</a></li>
-        <li><a id="redirect-non-bootstrap-adjustable-no-svg-file" href="./non-bootstrap-adjustable-no-svg-file/">Non-Bootstrap Adjustable No svg file</a></li>
-        <li><a id="redirect-non-bootstrap-adjustable-no-svg-or-css-file" href="./non-bootstrap-adjustable-no-svg-or-css-file/">Non-Bootstrap Adjustable No svg or CSS file</a></li>
-        <li><a id="redirect-non-bootstrap-daltonian-standalone" href="./non-bootstrap-daltonian-standalone/">Non-Bootstrap standalone javascript file</a></li>
-        <li><a id="redirect-html" href="./html/">HTML</a></li>
-    </ul>
-    <p>To use the latest version of the project on any webpage, you can use the following code:</p>
-    <ul>
-        <li>
-            Via the javascript console:
-            <br>
-            - Via bookmark:
-            <br>
-            <pre>
-                <code class="codeBlock" id="bookmarklet">
-                    javascript:(function(){
-                        /*This is to enable persistent settings during your navigation throughout the website your are visiting*/
-                        localStorage.setItem(window.daltonismFilterContent.daltonismUseLocalStorageName, "true");
-                        const script = document.createElement('script');
-                        script.src = '/non-bootstrap-daltonian-standalone/js/daltonism.js';
-                        document.head.appendChild(script);
-                    }
-                    )();
-                </code>
-            </pre>
-            <br>
-            - Via function:
-            <br>
-            <pre>
-                <code class="codeBlock" id="functionScriptInjection">
-                    function injectDaltonianScript(scriptUrl) {
-                        /*This is to enable persistent settings during your navigation throughout the website your are visiting*/
-                        localStorage.setItem(window.daltonismFilterContent.daltonismUseLocalStorageName, "true");
-                        const script = document.createElement('script');
-                        script.src = scriptUrl;
-                        script.async = true;
-                        script.onload = function() {
-                            console.log('Color adaptation script loaded successfully');
-                    };
-                    script.onerror = function() {
-                        console.error('Error loading color adaptation script');
-                    };
-                    document.head.appendChild(script);
-                };
-                injectDaltonianScript('/non-bootstrap-daltonian-standalone/js/daltonism.js');
-                </code>
-            </pre>
-        </li>
-        <li>
-            By manually editing the html and pasting this line at the end of the body tag:
-            <br>
-            <pre>
-                <code class="codeBlock" id="htmlScriptInjection">
-                    &lt;script type="text/JavaScript" src="/non-bootstrap-daltonian-standalone/js/daltonism.js"&gt;/*This is to enable persistent settings during your navigation throughout the website your are visiting*/localStorage.setItem(window.daltonismFilterContent.daltonismUseLocalStorageName, "true");&lt;/script&gt;
-                </code>
-            </pre>
-        </li>
-    </ul>
+    <div id="draggable-div" style="width: 100px; height: 100px; background-color: lightblue; position: absolute;">
+        Drag me!
+    </div>
+    <main role="main">
+        <p>Follow one of these links to view the different stages of the project:</p>
+        <ul aria-label="Project stages navigation">
+            <li><a id="redirect-non-bootstrap" href="./non-bootstrap/" aria-label="Non-Bootstrap version">Non-Bootstrap</a></li>
+            <li><a id="redirect-non-bootstrap-adjustable" href="./non-bootstrap-adjustable/" aria-label="Non-Bootstrap Adjustable version">Non-Bootstrap Adjustable</a></li>
+            <li><a id="redirect-non-bootstrap-adjustable-no-svg-file" href="./non-bootstrap-adjustable-no-svg-file/" aria-label="Non-Bootstrap Adjustable No SVG file version">Non-Bootstrap Adjustable No svg file</a></li>
+            <li><a id="redirect-non-bootstrap-adjustable-no-svg-or-css-file" href="./non-bootstrap-adjustable-no-svg-or-css-file/" aria-label="Non-Bootstrap Adjustable No SVG or CSS file version">Non-Bootstrap Adjustable No svg or CSS file</a></li>
+            <li><a id="redirect-non-bootstrap-daltonian-standalone" href="./non-bootstrap-daltonian-standalone/" aria-label="Non-Bootstrap standalone javascript file version">Non-Bootstrap standalone javascript file</a></li>
+            <li><a id="redirect-html" href="./html/" aria-label="HTML version">HTML</a></li>
+        </ul>
+
+        <section aria-labelledby="installation-heading">
+            <h2 id="installation-heading">Installation Options</h2>
+            <p>To use the latest version of the project on any webpage, you can use the following code:</p>
+            <ul aria-label="Installation methods">
+                <li>
+                    <p>Via Tampermonkey (most flexible way): <a href="./tampemonkey/daltonism.user.js" class="install-button" aria-label="Install Daltonism Color Adaptation overlay using Tampermonkey">Install Daltonism Color Adaptation overlay</a></p>
+                    <p>P.S.: you need to have tapemonkey already installed in you browser for this link to trigger it.</p>
+                    <p>If this is not the case, you can download it here: <a href="https://www.tampermonkey.net/" aria-label="Download Tampermonkey from official website">https://www.tampermonkey.net/</a></p>
+                </li>
+                <li>
+                    <p id="console-method">Via the javascript console:</p>
+                    <div role="group" aria-labelledby="console-method">
+                        - Via bookmark:
+                        <pre aria-label="Bookmarklet code">
+                            <code class="codeBlock" id="bookmarklet" aria-describedby="bookmarklet-desc">
+                                javascript:(function(){
+                                    /*This is to enable persistent settings during your navigation throughout the website your are visiting*/
+                                    localStorage.setItem(window.daltonismFilterContent.daltonismUseLocalStorageName, "true");
+                                    const script = document.createElement('script');
+                                    script.src = '/non-bootstrap-daltonian-standalone/js/daltonism.js';
+                                    document.head.appendChild(script);
+                                }
+                                )();
+                            </code>
+                        </pre>
+                        <span id="bookmarklet-desc" class="sr-only">Bookmarklet code to inject the Daltonism script</span>
+
+                        - Via function:
+                        <pre aria-label="Function script injection code">
+                            <code class="codeBlock" id="functionScriptInjection" aria-describedby="function-desc">
+                                function injectDaltonianScript(scriptUrl) {
+                                    /*This is to enable persistent settings during your navigation throughout the website your are visiting*/
+                                    localStorage.setItem(window.daltonismFilterContent.daltonismUseLocalStorageName, "true");
+                                    const script = document.createElement('script');
+                                    script.src = scriptUrl;
+                                    script.async = true;
+                                    script.onload = function() {
+                                        console.log('Color adaptation script loaded successfully');
+                                };
+                                script.onerror = function() {
+                                    console.error('Error loading color adaptation script');
+                                };
+                                document.head.appendChild(script);
+                            };
+                            injectDaltonianScript('/non-bootstrap-daltonian-standalone/js/daltonism.js');
+                            </code>
+                        </pre>
+                        <span id="function-desc" class="sr-only">JavaScript function to inject the Daltonism script</span>
+                    </div>
+                </li>
+                <li>
+                    <p id="html-method">By manually editing the html and pasting this line at the end of the body tag:</p>
+                    <pre aria-labelledby="html-method">
+                        <code class="codeBlock" id="htmlScriptInjection" aria-describedby="html-desc">
+                            &lt;script type="text/JavaScript" src="/non-bootstrap-daltonian-standalone/js/daltonism.js"&gt;/*This is to enable persistent settings during your navigation throughout the website your are visiting*/localStorage.setItem(window.daltonismFilterContent.daltonismUseLocalStorageName, "true");&lt;/script&gt;
+                        </code>
+                    </pre>
+                    <span id="html-desc" class="sr-only">HTML script tag to include the Daltonism script</span>
+                </li>
+            </ul>
+        </section>
+    </main>
+
     <script type="text/javascript">
         const pageHostname = window.location.origin;
         const persistencySettingsCode = `\
     /*This is to enable persistent settings during your navigation throughout the website your are visiting*/
-    localStorage.setItem(window.daltonismFilterContent.daltonismUseLocalStorageName, "true");`;
+    localStorage.setItem("daltonism-use-local-storage", "true");`;
         const restOfScriptComment = `\n    /* This is the rest of the code for the injection of the external script */`;
         const standaloneURL = `${pageHostname}/non-bootstrap-daltonian-standalone/js/daltonism.js`;
 
