@@ -219,7 +219,7 @@ const daltonismSVGFileContent = `
 const daltonismCSSClasses = [
     {
         name: ".c-control-menu",
-        content: `position: fixed;\ntop: 10px;\nwidth:auto;\nheight:auto;\nz-index: 1000;\npadding: 10px;\nbackground-color: rgba(255, 255, 255, 0.54);\nborder-radius: 5px;\nbox-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\ncursor: move;`
+        content: `position: fixed;\nwidth:auto;\nmax-width: 425px;\nheight:auto;\nz-index: 1000;\npadding: 10px;\nbackground-color: rgba(255, 255, 255, 0.54);\nborder-radius: 5px;\nbox-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\ncursor: move;`
     },
     {
         name: ".daltonism-svg",
@@ -404,43 +404,54 @@ document.addEventListener('DOMContentLoaded', daltonismBootUP);
 
 // ----------------------------- Section in charge of making the menu draggable ------------------------------
 // Value to track the dragging state and the offset of the mouse from the top left corner of the menu
-let isDragging = false;
-let offsetX, offsetY;
-const draggable = document.getElementById(daltonismDraggableMenu_name) || document.querySelector(`.${daltonismDraggableMenu_name}`) || null; // Try to find the element by id first, then by class name
+let daltonismIsDragging = false;
+let daltonismOffsetX, daltonismOffsetY;
+const daltonismDraggable = document.getElementById(daltonismDraggableMenu_name) || document.querySelector(`.${daltonismDraggableMenu_name}`) || null; // Try to find the element by id first, then by class name
 
 // functions to update the position of the menu based on the mouse movement and to stop the dragging when the mouse button is released
 function daltonismInitiateDragging(event) {
-    if (draggable == null || !(draggable instanceof HTMLElement) || draggable == undefined) {
+    if (daltonismDraggable == null || !(daltonismDraggable instanceof HTMLElement) || daltonismDraggable == undefined) {
         console.daltonismDebug("(daltonismInitiateDragging) draggable element not found");
         return;
     }
-    isDragging = true;
-    offsetX = event.clientX - draggable.offsetLeft;
-    offsetY = event.clientY - draggable.offsetTop;
+    daltonismIsDragging = true;
+    daltonismOffsetX = event.clientX - daltonismDraggable.offsetLeft;
+    daltonismOffsetY = event.clientY - daltonismDraggable.offsetTop;
 }
 
 function daltonismUpdateDraggablePosition(event) {
-    if (isDragging) {
-        draggable.style.left = (event.clientX - offsetX) + 'px';
-        draggable.style.top = (event.clientY - offsetY) + 'px';
+    if (daltonismIsDragging) {
+        daltonismDraggable.style.left = (event.clientX - daltonismOffsetX) + 'px';
+        daltonismDraggable.style.top = (event.clientY - daltonismOffsetY) + 'px';
     }
 }
 
 function daltonismStopDragging() {
-    isDragging = false;
+    daltonismIsDragging = false;
 }
 
-function makeMenuDraggable() {
-    if (draggable == null || !(draggable instanceof HTMLElement) || draggable == undefined) {
-        console.daltonismDebug("(makeMenuDraggable) draggable element not found");
+function daltonismSetDraggableMenuStyle(element) {
+    // Set initial style
+    element.style.gap = '5px';
+    element.style.top = '10px';
+    element.style.right = '10px';
+    element.style.display = 'flex';
+    element.style.flexWrap = 'wrap';
+    element.style.position = 'absolute';
+}
+
+function daltonismMakeMenuDraggable() {
+    if (daltonismDraggable == null || !(daltonismDraggable instanceof HTMLElement) || daltonismDraggable == undefined) {
+        console.daltonismDebug("(daltonismMakeMenuDraggable) draggable element not found");
         return;
     }
-    draggable.addEventListener('mousedown', daltonismInitiateDragging);
+    daltonismSetDraggableMenuStyle(daltonismDraggable);
+    daltonismDraggable.addEventListener('mousedown', daltonismInitiateDragging);
     document.addEventListener('mousemove', daltonismUpdateDraggablePosition);
     document.addEventListener('mouseup', daltonismStopDragging);
 }
 
-document.addEventListener('DOMContentLoaded', makeMenuDraggable);
+document.addEventListener('DOMContentLoaded', daltonismMakeMenuDraggable);
 // ----------------------------- Inject the svg file into the html page ------------------------------
 
 function daltonismInjectSVG() {
@@ -497,14 +508,19 @@ document.addEventListener('DOMContentLoaded', daltonismInjectCSSCode);
 // The content here, is arranged by type and length, however, it might not appear the same way when you try to access it in the browser console.
 
 const daltonismFilter = [
-    daltonismIdentityMatrix,
     daltonismFilters,
+    daltonismOffsetX,
+    daltonismOffsetY,
+    daltonismDraggable,
     daltonismBaseMatrix,
     daltonismCSSClasses,
     daltonismClassNames,
+    daltonismIsDragging,
+    daltonismIdentityMatrix,
     daltonismSVGFileContent,
     daltonismFilterName_name,
     daltonismNormalButton_name,
+    daltonismDraggableMenu_name,
     daltonismIntensitySlider_name,
     daltonismClassNameEquivalence,
     daltonismProtanopiaButton_name,
@@ -520,16 +536,23 @@ const daltonismFilter = [
     daltonismInjectSVG,
     daltonismApplyFilter,
     daltonismUpdateFilter,
+    daltonismStopDragging,
     daltonismInjectCSSCode,
+    daltonismInitiateDragging,
     daltonismFlipKeysAndValues,
+    daltonismMakeMenuDraggable,
     daltonismApplyMatrixToFilter,
     daltonismUpdateFilterIntensity,
+    daltonismSetDraggableMenuStyle,
+    daltonismUpdateDraggablePosition,
     daltonismUpdateFilterTransparency,
     daltonismEnsureCSSComponentExists,
     daltonismReturnCorrectColourMatrixFilter,
     daltonismUpdateIntensitySliderDisplayValue,
     daltonismUpdateTransparencySliderDisplayValue
 ]
+
+
 
 window.daltonismFilter = daltonismFilter;
 document.daltonismFilter = daltonismFilter;
