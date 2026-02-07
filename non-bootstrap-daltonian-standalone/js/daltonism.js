@@ -539,6 +539,42 @@ function daltonismClassExistsAndHasElements(className) {
     };
 }
 
+// ----------------------------- Allow an html element to be dragable ------------------------------
+
+// Get the draggable div element
+const draggableDiv = document.getElementById('draggable-div');
+
+// Initialize variables to store the offset of the mouse pointer relative to the div
+let offsetX, offsetY;
+
+// Function to handle the mousedown event
+function daltonismDragStart(e) {
+    // Calculate the offset of the mouse pointer relative to the div
+    offsetX = e.clientX - draggableDiv.offsetLeft;
+    offsetY = e.clientY - draggableDiv.offsetTop;
+
+    // Add event listeners for mousemove and mouseup events
+    document.addEventListener('mousemove', dragMove);
+    document.addEventListener('mouseup', dragEnd);
+}
+
+// Function to handle the mousemove event
+function daltonismDragMove(e) {
+    // Move the div to the new position based on the mouse pointer's position
+    draggableDiv.style.left = e.clientX - offsetX + 'px';
+    draggableDiv.style.top = e.clientY - offsetY + 'px';
+}
+
+// Function to handle the mouseup event
+function daltonismDragEnd() {
+    // Remove the event listeners for mousemove and mouseup events
+    document.removeEventListener('mousemove', dragMove);
+    document.removeEventListener('mouseup', dragEnd);
+}
+
+// Add the mousedown event listener to the draggable div
+draggableDiv.addEventListener('mousedown', dragStart);
+
 // ----------------------------- Inject the controls if not already present ------------------------------
 
 function daltonismInjectControls() {
@@ -592,7 +628,7 @@ function daltonismInjectCSSCode() {
 document.addEventListener('DOMContentLoaded', daltonismInjectCSSCode);
 
 // ----------------------------- Section to add the theme togglers ------------------------------
-async function inject_button_controls() {
+async function daltonismInjectButtonControls() {
     console.daltonismDebug("(inject_button_controls) inject_button_controls called");
 
     const normalButton = await daltonismEnsureElementExists(daltonismNormalButton_name);
@@ -644,10 +680,10 @@ async function inject_button_controls() {
     console.daltonismDebug("(inject_button_controls) inject_button_controls finished");
 };
 
-document.addEventListener('DOMContentLoaded', inject_button_controls);
+document.addEventListener('DOMContentLoaded', daltonismInjectButtonControls);
 
 // ----------------------------- Section to add a listener to the sliders ------------------------------
-async function inject_slider_controls() {
+async function daltonismInjectSliderControls() {
     console.daltonismDebug("(inject_slider_controls) inject_slider_controls called");
 
     const intensitySlider = await daltonismEnsureElementExists(daltonismIntensitySlider_name);
@@ -666,7 +702,16 @@ async function inject_slider_controls() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', inject_slider_controls);
+document.addEventListener('DOMContentLoaded', injectSliderControls);
+
+// ----------------------------- Section to add a draggability option to the window of the filter settings ------------------------------
+
+async function daltonismInjectDragability() {
+
+    const settingsWindow = await daltonismEnsureElementExists(daltonismIntensitySlider_name);
+}
+
+document.addEventListener('DOMContentLoaded', daltonismInjectDragability);
 
 // ----------------------------- Section in charge of initialising the desired theme on the page ------------------------------
 function daltonismBootUP() {
@@ -743,8 +788,9 @@ const daltonismFilterContent = {
     daltonismUpdateIntensitySliderDisplayValue,
     daltonismUpdateTransparencySliderDisplayValue,
     /* asynchronous functions */
-    inject_button_controls,
-    inject_slider_controls,
+    daltonismInjectDragability,
+    daltonismInjectButtonControls,
+    daltonismInjectSliderControls,
 };
 
 window.daltonismFilter = daltonismFilterContent;

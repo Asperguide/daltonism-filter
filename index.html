@@ -160,8 +160,10 @@ javascript:(function(){
 ${persistencySettingsCode}
 ${restOfScriptComment}
     const script = document.createElement('script');
-    script.type="text/JavaScript";script.src='${standaloneURL}';
+    script.type="text/JavaScript";
+    script.src='${standaloneURL}';
     document.head.appendChild(script);
+    console.log('Color adaptation script injected successfully');
 })();`;
 
         document.getElementById("functionScriptInjection").innerText = `\
@@ -178,6 +180,7 @@ ${restOfScriptComment}
         console.error('Error loading color adaptation script');
     };
     document.head.appendChild(script);
+    console.log('Color adaptation script injected successfully');
 };
 injectDaltonianScript('${standaloneURL}');`;
 
