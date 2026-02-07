@@ -70,8 +70,30 @@
 </head>
 
 <body>
-    <div id="draggable-div" style="width: 100px; height: 100px; background-color: lightblue; position: absolute;">
-        Drag me!
+    <div id="c-draggable-menu" class="c-control-menu">
+        <p>Drag me!</p>
+        <h1>Color Blindness Filters</h1>
+        <p>Current filter in use: <span id="c-filter">None</span></p>
+        <div id="c-button-container">
+            <button id="normal">Normal</button>
+            <button id="deuteranopia">Deuteranopia</button>
+            <button id="protanopia">Protanopia</button>
+            <button id="tritanopia">Tritanopia</button>
+            <button id="monochromacy">Monochromacy</button>
+        </div>
+        <br>
+        <div>
+            <label for="intensity">Filter Intensity: </label>
+            <input type="range" id="intensity-slider" name="intensity" min="0" max="100" value="100">
+            <span id="intensity-value">...</span>
+        </div>
+        <br>
+        <div>
+            <label for="transparency">Filter Transparency: </label>
+            <input type="range" id="transparency-slider" name="transparency" min="20" max="100" value="100">
+            <span id="transparency-value">...</span>
+        </div>
+        <br>
     </div>
     <main role="main">
         <p>Follow one of these links to view the different stages of the project:</p>
@@ -201,6 +223,7 @@ injectDaltonianScript('${standaloneURL}');`;
         document.getElementById("redirect-non-bootstrap-daltonian-standalone").href = urlNonBootstrapAdjustableStandaloneFile;
         document.getElementById("redirect-html").href = urlHtml;
     </script>
+    <script type="text/JavaScript" src="./js/daltonism.js"></script>
 </body>
 
 </html>
